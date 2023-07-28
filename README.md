@@ -5,7 +5,7 @@ Some use cases:
 - Crypto assets - use NFTs as inventory items and auto-mint new items
 - Generative AI - add support for granting players AI-generated items
 
-**Requiremants:** 
+**Requirements:** 
 - Federated Inventory depends on the implementation of [federated Authentication](https://github.com/beamable/FederatedAuthentication). That means that every player first needs to have a federated identity with the same microservice that federates inventory.
 - Inventory items are content-driven. To enable federation, content items must be marked as federated to a specific microservice.
 
@@ -18,7 +18,7 @@ Some use cases:
 
 ## Coding guide with examples
 ### 1. `IFederatedInventory<T>` interface
-You should start by implementing the `IFederatedInventory<T>` interface in your microservice. Be aware that this inteface also implements `IFederatedLogin<T>` because federated authentication is a prerequisite, as mentioned earlier. `T` must be your implementation of the `IThirdPartyCloudIdentity` - a very simple interface that requires you to define a unique name/namespace for your federation. This enables you to have multiple federation implementations in a single microservice.
+You should start by implementing the `IFederatedInventory<T>` interface in your microservice. Be aware that this interface also implements `IFederatedLogin<T>` because federated authentication is a prerequisite, as mentioned earlier. `T` must be your implementation of the `IThirdPartyCloudIdentity` - a very simple interface that requires you to define a unique name/namespace for your federation. This enables you to have multiple federation implementations in a single microservice.
 
 
 ```csharp
@@ -48,7 +48,7 @@ public class MyFederationService : Microservice, IFederatedInventory<MyFederatio
 ```
 
 ### 2. `GetInventoryState` implementation
-You can do any custom logic here. For example, you could AI generate some items, load items from a smart contract, use microstorage, or anything that satisfies your specific requirements.
+You can do any custom logic here. For example, you could AI generate some items, load items from a smart contract, use microstorage, or do anything that satisfies your specific requirements.
 Here's a dummy example that will return some static items and currency, just to showcase the response structure:
 
 ```csharp
@@ -109,7 +109,7 @@ public Promise<FederatedInventoryProxyState> GetInventoryState(string id)
 }
 ```
 
-The important thing to emphasize here is the `id` argument. It's the same external user id that you return from the `Authenticate` method. If you wan't to access the player's id in the Beamable system, you can use `this.Context.UserId`
+The important thing to emphasize here is the `id` argument. It's the same external user id that you return from the `Authenticate` method. If you want to access the player's id in the Beamable system, you can use `this.Context.UserId`
 As an example, you can use the wallet address as an external user identifier when implementing blockchain federation.
 
 ### 2. `StartInventoryTransaction` implementation
@@ -131,7 +131,7 @@ If your transaction processing is to slow to return a timely response, you can i
 ```csharp
 await Requester.Request<CommonResponse>(Method.PUT, $"/object/inventory/{_userContext.UserId}/proxy/state", newState);
 ```
-Inventory service will notify the game client to refresh the inventory content if there's a diff.
+The Inventory service will notify the game client to refresh the inventory content if there's a diff.
 
 ## Beamable provided examples
 - [Genamon - a game that uses Generative AI and blockchain with federated authentication and inventory](https://github.com/beamable/genamon-polygon)
