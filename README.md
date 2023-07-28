@@ -15,3 +15,7 @@ Some use cases:
 
 ## Grant inventory items flow with federation enabled
 ![Grant inventory](Diagrams/put-inventory-federation-flow.png)
+
+## Code guide with examples
+### 1. `IFederatedInventory<T>` interface
+You should start with implementing the `IFederatedInventory<T>` interface in your microservice. Be aware that this inteface also implements `IFederatedLogin<T>` because federated authentication is a pre-requisite, as mentioned earlier. `T` must be your implementation of the `IThirdPartyCloudIdentity` - very simple interface that requires you to define a unique name/namespace for your federation. This enables you to have multiple federation implementations in a single microservice.
