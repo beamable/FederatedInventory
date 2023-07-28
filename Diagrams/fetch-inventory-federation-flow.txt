@@ -1,0 +1,13 @@
+Player->InventoryService:GET inventory/playerId
+activate Player
+activate InventoryService
+box over InventoryService:Load player's items from storage
+InventoryService->FederationService:GetInventoryState(federatedPlayerId)
+activate FederationService
+box over FederationService: Custom logic to fetch federated inventory
+FederationService->InventoryService:Federated inventory
+deactivate FederationService
+box over InventoryService:Merge local items with federated items
+InventoryService->Player:Inventory response
+deactivate InventoryService
+deactivate Player

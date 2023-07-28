@@ -1,0 +1,15 @@
+participant Player
+
+activate GameMaker
+GameMaker->InventoryService:PUT inventory/playerId
+activate InventoryService
+box over InventoryService: Process non-federated items
+InventoryService->FederationService:StartInventoryTransaction(federatedPlayerId, params data)
+activate FederationService
+box over FederationService: Custom logic to process the transaction
+FederationService->InventoryService: Federated inventory
+deactivate FederationService
+InventoryService->GameMaker: OK
+deactivate GameMaker
+InventoryService->Player:Notify "inventory.change"
+deactivate InventoryService
